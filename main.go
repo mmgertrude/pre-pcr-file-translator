@@ -21,7 +21,7 @@ func main() {
 	fmt.Println(new_req_name_file)
 
 	file_to_write := req_file_modifier(new_req_name_file, newestFile)
-	//save file_to_write
+	//write function to save file_to_write
 	fmt.Println(file_to_write)
 
 }

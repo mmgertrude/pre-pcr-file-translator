@@ -14,8 +14,19 @@ var path = "./testfolder/"
 func main() {
 	newestFile := new_file_discover()
 	fmt.Println(newestFile)
+
+	//fetch requisition name from unilab API ?
+	unilab_name_or_file := "name returned from unilab"
+	new_req_name_file := unilab_name_or_file
+	fmt.Println(new_req_name_file)
+
+	file_to_write := req_file_modifier(new_req_name_file, newestFile)
+	//save file_to_write
+	fmt.Println(file_to_write)
+
 }
 
+//has no testcode
 func new_file_discover() string {
 	files, err := ioutil.ReadDir(path)
 	if err != nil {
@@ -35,5 +46,14 @@ func new_file_discover() string {
 		}
 	}
 	return (newestFile)
+}
+
+//has no test code
+func req_file_modifier(new_req_name_file, newestFile string) string {
+	//do stuff ie
+	// replace requisition id in newestfile with requisition name
+	//return modified file name
+	fmt.Println(new_req_name_file, newestFile)
+	return "file_to_save"
 
 }

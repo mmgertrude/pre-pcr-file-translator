@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+
 	"github.com/caarlos0/env"
 	"github.com/spf13/afero"
 )
@@ -17,7 +18,7 @@ type session struct {
 	ProcessedFolder string `env:"PROCESSED_FOLDER" envDefault:"testInput/testProcessed/"`
 	ErrorFolder     string `env:"ERROR_FOLDER" envDefault:"testInput/testError/"`
 	ApiCallUrl      string `env:"API_CALL_URL" envDefault:"https://u700courier.test.mgmlab.net/analysis_by_name/Q"`
-	appFS			afero.Fs
+	appFS           afero.Fs
 }
 
 func main() {
@@ -28,21 +29,22 @@ func main() {
 	// Setting up for afero
 	cfg.appFS = afero.NewOsFs()
 
+	// Get data from the restAPI
+	responseData, err := get_data(cfg.ApiCallUrl)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(responseData)
+
 	// If folders does not exist we should make them
 	folders := []string{cfg.InputFolder, cfg.OutputFolder, cfg.ProcessedFolder, cfg.ErrorFolder}
-	err := check_and_create_folders(folders, cfg.appFS)
+	err = check_and_create_folders(folders, cfg.appFS)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Getting slice with files in the folder
 	fileSlice, err := file_discoverer(cfg.InputFolder, cfg.appFS)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Get data from the restAPI
-	responseData, err := get_data(cfg.ApiCallUrl)
 	if err != nil {
 		log.Fatal(err)
 	}
